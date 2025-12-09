@@ -1,2 +1,2 @@
-# Assignment-1
-My first assignment in Object-Oriented Programming
+# Assignment-1: Music Streaming Library
+A simple music streaming library prototype
