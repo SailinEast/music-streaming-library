@@ -9,7 +9,6 @@ public class Main {
         // Some objects' initialization
         Playlist playlist1 = new Playlist("My epic playlist", "TurboMan228");
         Playlist playlist2 = new Playlist("Christmas vibes"); // this one has no creator, add User class later so each playlist has a creator
-        Playlist playlist3 = new Playlist("TestBlank", "TurboMan22");
 
         Artist artist1 = new Artist("Wham!");
         Artist artist2 = new Artist("Lil Big Stack");
