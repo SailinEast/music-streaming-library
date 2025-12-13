@@ -7,4 +7,8 @@ This is a mini-project for a music streaming library
 
 All of the files are in the [src](src) folder
 
+## Documentation
+
+You can see project architecture in [docs](docs) folder
+
 ###### WIP
