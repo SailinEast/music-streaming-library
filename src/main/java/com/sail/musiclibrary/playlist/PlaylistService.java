@@ -1,10 +1,10 @@
 package com.sail.musiclibrary.playlist;
 
 import com.sail.musiclibrary.common.BaseService;
-import com.sail.musiclibrary.media.MediaService;
 import com.sail.musiclibrary.media.album.song.Song;
 import com.sail.musiclibrary.media.album.song.SongService;
 import com.sail.musiclibrary.user.User;
+import com.sail.musiclibrary.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,44 +15,58 @@ import org.springframework.stereotype.Service;
 public class PlaylistService extends BaseService<Playlist, Long> {
     private final PlaylistRepository playlistRepository;
     private final SongService songService;
+    private final UserService userService;
 
     // Playlist manipulations
     @Transactional
-    public Playlist createPlaylist(String name, User owner) {
-        Playlist playlist = new Playlist(name, owner);
+    public Playlist createPlaylist(String name, Long ownerId) {
+        User user = userService.findById(ownerId);
+        Playlist playlist = new Playlist(name, user);
         return playlistRepository.save(playlist);
     }
 
     @Transactional
-    public void deletePlaylist(Long id) {
-        playlistRepository.deleteById(id);
+    public void deletePlaylist(Long playlistId, Long requesterId) {
+        Playlist playlist = verifyUser(playlistId, requesterId);
+
+        playlistRepository.delete(playlist);
     }
 
     @Transactional
-    public void renamePlaylist(Long id, String newName, Long requesterId) {
-        Playlist playlist = this.findById(id);
-        if (!playlist.getOwner().getId().equals(requesterId)) {
-            System.out.println("Access Denied");
-        }
+    public Playlist renamePlaylist(Long playlistId, String newName, Long requesterId) {
+        Playlist playlist = verifyUser(playlistId, requesterId);
+
         playlist.rename(newName);
-        playlistRepository.save(playlist);
+        return playlistRepository.save(playlist);
     }
 
     // Song manipulations
     @Transactional
-    public void addSong(Long playlistId, Long songId) {
+    public void addSongToPlaylist(Long playlistId, Long songId, Long requesterId) {
+        Playlist playlist = verifyUser(playlistId, requesterId);
         Song song = songService.findById(songId);
-        Playlist playlist = playlistRepository.findById(playlistId).orElseThrow();
 
-        playlist.getSongs().add(song);
+        playlist.addSong(song);
     }
 
     @Transactional
-    public void removeSong(Long playlistId, Long songId) {
+    public void removeSongFromPlaylist(Long playlistId, Long songId, Long requesterId) {
+        Playlist playlist = verifyUser(playlistId, requesterId);
         Song song = songService.findById(songId);
+
+        playlist.removeSong(song);
+    }
+
+    private Playlist verifyUser(Long playlistId, Long requesterId) {
         Playlist playlist = this.findById(playlistId);
 
-        playlist.getSongs().remove(song);
+        // if playlist owner id and requester id not equals, throw an exception
+        // else return playlist object
+        if (!playlist.getOwner().getId().equals(requesterId)) {
+            throw new SecurityException("Access Denied");
+        } else {
+            return playlist;
+        }
     }
 
     @Override

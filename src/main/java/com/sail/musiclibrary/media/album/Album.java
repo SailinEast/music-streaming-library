@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 public class Album {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Getter private Long id;
 
     @Getter private String title;
 

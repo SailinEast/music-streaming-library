@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -27,7 +28,11 @@ public class Playlist {
             joinColumns = @JoinColumn(name = "playlist_id"),
             inverseJoinColumns = @JoinColumn(name = "song_id")
     )
-    @Getter private List<Song> songs = new ArrayList<>();
+    private final List<Song> songs = new ArrayList<>();
+
+    public List<Song> getSongs() {
+        return Collections.unmodifiableList(songs);
+    }
 
     public Playlist(String name, User owner) {
         this.name = name;
@@ -36,5 +41,13 @@ public class Playlist {
 
     public void rename(String newName) {
         name = newName;
+    }
+
+    public void addSong(Song song) {
+        songs.add(song);
+    }
+
+    public void removeSong(Song song) {
+        songs.remove(song);
     }
 }

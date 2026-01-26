@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -22,7 +24,11 @@ public class Song extends Media {
     @Getter private Album album;
 
     @ManyToMany(mappedBy = "songs")
-    @Getter private List<Playlist> playlists;
+    private List<Playlist> playlists = new ArrayList<>();
+
+    public List<Playlist> getPlaylists() {
+        return Collections.unmodifiableList(playlists);
+    }
 
     public Song(String title, int duration, Album album) {
         this.title = title;
