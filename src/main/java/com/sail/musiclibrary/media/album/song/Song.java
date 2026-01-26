@@ -36,6 +36,16 @@ public class Song extends Media {
         this.album = album;
     }
 
+    public void addPlaylist(Playlist playlist) {
+        if (!this.playlists.contains(playlist)) {
+            this.playlists.add(playlist);
+        }
+    }
+
+    public void removePlaylist(Playlist playlist) {
+        this.playlists.remove(playlist);
+    }
+
     @Override
     public String toString() {
         return String.format("Song{title=%s, durationSeconds=%d}", title, duration);
