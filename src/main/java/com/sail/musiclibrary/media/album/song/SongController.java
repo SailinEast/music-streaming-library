@@ -16,10 +16,17 @@ public class SongController {
     @ResponseStatus(HttpStatus.CREATED)
     public SongResponse uploadSong(@RequestBody SongRequest request) {
         Song song = songService.uploadSong(
-                request.albumId(),
-                request.title(),
-                request.duration(),
-                request.artistUserId()
-        )
+            request.albumId(),
+            request.title(),
+            request.duration(),
+            request.artistUserId()
+        );
+
+        return new SongResponse(
+            song.getId(),
+            song.getTitle(),
+            song.getAlbum().getTitle(),
+            song.getAlbum().getArtist().getUser().getHandle()
+        );
     }
 }
