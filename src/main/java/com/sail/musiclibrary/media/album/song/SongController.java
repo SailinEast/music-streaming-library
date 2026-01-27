@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 public class SongController {
     private final SongService songService;
 
+    @GetMapping
+
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public SongResponse uploadSong(@RequestBody SongRequest request) {

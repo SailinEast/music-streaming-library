@@ -1,0 +1,52 @@
+### Variables
+@host = http://localhost:8080/api/playlists
+@requesterId = 1
+@songId = 1
+@playlistId = 1
+
+### 1. Create a Playlist
+# We act as User 1 (Alice)
+POST {{host}}
+Content-Type: application/json
+
+{
+  "name": "My Morning Coffee",
+  "ownerId": {{requesterId}}
+}
+
+> {%
+    client.global.set("playlistId", response.body.id);
+    client.log("Created Playlist ID: " + response.body.id);
+%}
+
+### 2. Verify Playlist is Empty
+# Check the console or response to see "songs": []
+GET {{host}}/{{playlistId}}
+
+
+### 3. Add the Song to the Playlist
+# We allow User 1 to add Song 1 to the playlist we just made
+POST {{host}}/{{playlistId}}/songs/{{songId}}?requesterId={{requesterId}}
+
+
+### 4. Verify Song is Added (THE BIG TEST)
+# The response should now contain the song details inside the list
+GET {{host}}/{{playlistId}}
+
+
+### 5. Rename the Playlist
+# User 1 renames it
+PUT {{host}}/{{playlistId}}?requesterId={{requesterId}}
+Content-Type: application/json
+
+{
+  "name": "Test"
+}
+
+
+### 6. Remove the Song
+DELETE {{host}}/{{playlistId}}/songs/{{songId}}?requesterId={{requesterId}}
+
+
+### 7. Verify Playlist is Empty Again
+GET {{host}}/{{playlistId}}

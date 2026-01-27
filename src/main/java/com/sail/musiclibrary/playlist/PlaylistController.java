@@ -48,12 +48,6 @@ public class PlaylistController {
         playlistService.addSongToPlaylist(playlistId, songId, requesterId);
     }
 
-    @DeleteMapping("/{playlistId}/songs/{songId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removeSong(@PathVariable Long playlistId, @PathVariable Long songId, @RequestParam Long requesterId) {
-        playlistService.removeSongFromPlaylist(playlistId, songId, requesterId);
-    }
-
     @PutMapping("/{playlistId}")
     public PlaylistResponse updatePlaylist(
         @PathVariable Long playlistId,
@@ -70,4 +64,9 @@ public class PlaylistController {
         );
     }
 
+    @DeleteMapping("/{playlistId}/songs/{songId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeSong(@PathVariable Long playlistId, @PathVariable Long songId, @RequestParam Long requesterId) {
+        playlistService.removeSongFromPlaylist(playlistId, songId, requesterId);
+    }
 }
