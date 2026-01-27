@@ -33,6 +33,17 @@ public class SongService extends BaseService<Song, Long> {
         songRepository.delete(song);
     }
 
+    @Transactional
+    public Song renameSong(Long songId, String newTitle, Long requesterId) {
+        Long albumId = this.findById(songId).getAlbum().getId();
+        validateOwnership(albumId, requesterId);
+
+        Song song = this.findById(songId);
+        song.rename(newTitle);
+
+        return songRepository.save(song);
+    }
+
     private Album validateOwnership(Long albumId, Long requesterId) {
         // if userId and album's owner id equals
         // return album object
