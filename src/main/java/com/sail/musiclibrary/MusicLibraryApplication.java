@@ -21,7 +21,6 @@ public class MusicLibraryApplication {
 
     @Bean
     public CommandLineRunner runner(UserService userService,
-                                    SongService songService,
                                     AlbumService albumService,
                                     ArtistService artistService) {
         return args -> {
@@ -36,9 +35,6 @@ public class MusicLibraryApplication {
 
             Album a1 = albumService.releaseAlbum(u2.getId(), "Bob the Builder");
             System.out.println("Album '" + a1.getTitle() + "' with ID: " + a1.getId() + " created.");
-
-            Song s1 = songService.uploadSong(a1.getId(), "Bobbination", 180, u2.getId());
-            System.out.println("Song '" + s1.getTitle() + "' with ID: " + s1.getId() + " created.");
 
             System.out.println("--- DONE ---");
         };

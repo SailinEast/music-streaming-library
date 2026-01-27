@@ -1,8 +1,8 @@
 package com.sail.musiclibrary.common.dto;
 
 public record SongResponse(
-    Long id,
+    Long songId,
     String title,
-    String albumTitle,
-    String artistHandle
+    Long albumId,
+    Long artistUserId
 ) {}

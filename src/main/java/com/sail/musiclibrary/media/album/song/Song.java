@@ -36,6 +36,10 @@ public class Song extends Media {
         this.album = album;
     }
 
+    public void rename(String newTitle) {
+        title = newTitle;
+    }
+
     public void addPlaylist(Playlist playlist) {
         if (!this.playlists.contains(playlist)) {
             this.playlists.add(playlist);
