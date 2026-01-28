@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class SongController {
     private final SongService songService;
 
+    // Get song
     @GetMapping("/{songId}")
     public SongResponse getSong(@PathVariable Long songId) {
         Song song = songService.findById(songId);
@@ -25,7 +26,7 @@ public class SongController {
         );
     }
 
-
+    // Create song
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public SongResponse uploadSong(@RequestBody SongRequest request) {
@@ -44,6 +45,7 @@ public class SongController {
         );
     }
 
+    // Rename song
     @PutMapping("/{songId}")
     public SongResponse updateSong(
         @PathVariable Long songId,
@@ -60,6 +62,7 @@ public class SongController {
         );
     }
 
+    // Delete song
     @DeleteMapping("/{songId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteSong(@PathVariable Long songId, @RequestParam Long requesterId) {

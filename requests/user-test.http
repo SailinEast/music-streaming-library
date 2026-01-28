@@ -1,0 +1,23 @@
+@host = http://localhost:8080/api/users
+@userId1 = 1
+@userId2 = 2
+
+### GET 1st user
+GET {{host}}/{{userId1}}
+
+### Create user 'Alice'
+POST {{host}}
+Content-Type: application/json
+
+{
+  "handle": "Alice"
+}
+
+### GET 2nd user
+GET {{host}}/{{userId2}}
+
+### Delete 1st user
+DELETE {{host}}/{{userId1}}?requesterId={{userId1}}
+
+### Check for the 1st user
+GET {{host}}/{{userId1}}
