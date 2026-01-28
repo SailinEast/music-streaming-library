@@ -1,4 +1,4 @@
-package com.sail.musiclibrary.common.dto;
+package com.sail.musiclibrary.common.dto.song;
 
 public record SongResponse(
     Long songId,

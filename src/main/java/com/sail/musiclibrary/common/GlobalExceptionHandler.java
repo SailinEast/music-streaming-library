@@ -1,6 +1,6 @@
 package com.sail.musiclibrary.common;
 
-import com.sail.musiclibrary.common.dto.ErrorResponse;
+import com.sail.musiclibrary.common.dto.error.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
