@@ -1,0 +1,32 @@
+@host = http://localhost:8080/api/songs
+@requesterId = 2
+@songId = 1
+@playlistId = 1
+
+### CREATE
+POST {{host}}
+Content-Type: application/json
+
+{
+  "title": "My song",
+  "duration": 120,
+  "albumId": 1,
+  "artistUserId": 2
+}
+
+### GET
+GET {{host}}/{{songId}}
+
+### UPDATE
+PUT {{host}}/{{songId}}?requesterId={{requesterId}}
+Content-Type: application/json
+
+{
+  "title": "Amogus"
+}
+
+### GET (after renaming)
+GET {{host}}/{{songId}}
+
+### DELETE
+DELETE {{host}}/{{songId}}?requesterId={{requesterId}}

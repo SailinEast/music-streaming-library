@@ -1,7 +1,7 @@
 package com.sail.musiclibrary.media.album.song;
 
-import com.sail.musiclibrary.common.dto.SongRequest;
-import com.sail.musiclibrary.common.dto.SongResponse;
+import com.sail.musiclibrary.common.dto.song.SongRequest;
+import com.sail.musiclibrary.common.dto.song.SongResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
