@@ -15,6 +15,7 @@ import java.util.Collections;
 public class PlaylistController {
     public final PlaylistService playlistService;
 
+    // Get playlist
     @GetMapping("/{playlistId}")
     public PlaylistResponse getPlaylist(@PathVariable Long playlistId) {
         Playlist playlist = playlistService.findById(playlistId);
@@ -27,6 +28,7 @@ public class PlaylistController {
         );
     }
 
+    // Create playlist
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PlaylistResponse create(@RequestBody PlaylistRequest request) {
@@ -43,11 +45,13 @@ public class PlaylistController {
         );
     }
 
+    // Add song to a playlist
     @PostMapping("/{playlistId}/songs/{songId}")
     public void addSong(@PathVariable Long playlistId, @PathVariable Long songId, @RequestParam Long requesterId) {
         playlistService.addSongToPlaylist(playlistId, songId, requesterId);
     }
 
+    // Rename playlist
     @PutMapping("/{playlistId}")
     public PlaylistResponse updatePlaylist(
         @PathVariable Long playlistId,
@@ -64,9 +68,12 @@ public class PlaylistController {
         );
     }
 
+    // Delete song from playlist
     @DeleteMapping("/{playlistId}/songs/{songId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeSong(@PathVariable Long playlistId, @PathVariable Long songId, @RequestParam Long requesterId) {
         playlistService.removeSongFromPlaylist(playlistId, songId, requesterId);
     }
+
+    // TODO: Delete playlist
 }

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -25,6 +26,10 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @Getter @Setter private ArtistProfile artistProfile;
+
+    public List<Playlist> getPlaylists() {
+        return Collections.unmodifiableList(playlists);
+    }
 
     public User(String handle) {
         this.handle = handle;
