@@ -4,5 +4,6 @@ public record SongResponse(
     Long songId,
     String title,
     Long albumId,
-    Long artistUserId
+    Long artistUserId,
+    int duration
 ) {}
