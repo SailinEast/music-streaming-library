@@ -19,7 +19,7 @@ public class UserService extends BaseService<User, Long> {
 
     @Transactional
     public void deleteUser(Long userId, Long requesterId) {
-        if (!userId.equals(requesterId)) throw new SecurityException();
+        if (!userId.equals(requesterId)) throw new SecurityException("Access Denied");
 
         userRepository.deleteById(userId);
     }

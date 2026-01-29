@@ -22,7 +22,8 @@ public class SongController {
             song.getId(),
             song.getTitle(),
             song.getAlbum().getId(),
-            song.getAlbum().getArtist().getUser().getId()
+            song.getAlbum().getArtist().getUser().getId(),
+            song.getDuration()
         );
     }
 
@@ -30,18 +31,11 @@ public class SongController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public SongResponse uploadSong(@RequestBody SongRequest request) {
-        Song song = songService.uploadSong(
+        return songService.uploadSong(
             request.albumId(),
             request.title(),
             request.duration(),
             request.artistUserId()
-        );
-
-        return new SongResponse(
-            song.getId(),
-            song.getTitle(),
-            song.getAlbum().getId(),
-            song.getAlbum().getArtist().getUser().getId()
         );
     }
 
@@ -52,14 +46,7 @@ public class SongController {
         @RequestParam Long requesterId,
         @RequestBody SongUpdate request
     ) {
-        Song updatedSong = songService.renameSong(songId, request.title(), requesterId);
-
-        return new SongResponse(
-            updatedSong.getId(),
-            updatedSong.getTitle(),
-            updatedSong.getAlbum().getId(),
-            updatedSong.getAlbum().getArtist().getUser().getId()
-        );
+        return songService.renameSong(songId, request.title(), requesterId);
     }
 
     // Delete song

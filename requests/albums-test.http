@@ -1,0 +1,29 @@
+@host = http://localhost:8080/api/albums
+@artistId = 1
+@albumId = 1
+
+### Release album
+POST {{host}}?requesterId={{artistId}}
+Content-Type: application/json
+
+{
+  "title": "Bobbination",
+  "artistId": {{artistId}}
+}
+
+### Get album
+GET {{host}}/{{albumId}}
+
+### Rename album
+PUT {{host}}/{{albumId}}?requesterId={{artistId}}
+Content-Type: application/json
+
+{
+  "title": "Bob the Builder"
+}
+
+### Get again
+GET {{host}}/{{albumId}}
+
+### Delete album
+DELETE {{host}}/{{albumId}}?requesterId={{artistId}}
