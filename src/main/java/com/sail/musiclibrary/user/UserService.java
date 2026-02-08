@@ -1,5 +1,6 @@
 package com.sail.musiclibrary.user;
 
+import com.sail.musiclibrary.access.UserAccessValidator;
 import com.sail.musiclibrary.common.BaseService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

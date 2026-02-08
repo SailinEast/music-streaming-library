@@ -1,4 +1,4 @@
-package com.sail.musiclibrary.user;
+package com.sail.musiclibrary.access;
 
 import org.springframework.stereotype.Component;
 
