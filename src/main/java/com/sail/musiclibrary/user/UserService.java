@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService extends BaseService<User, Long> {
     private final UserRepository userRepository;
+    private final UserAccessValidator accessValidator;
 
     @Transactional
     public User createUser(String handle) {
@@ -19,8 +20,7 @@ public class UserService extends BaseService<User, Long> {
 
     @Transactional
     public void deleteUser(Long userId, Long requesterId) {
-        if (!userId.equals(requesterId)) throw new SecurityException("Access Denied");
-
+        accessValidator.validate(userId, requesterId);
         userRepository.deleteById(userId);
     }
 
