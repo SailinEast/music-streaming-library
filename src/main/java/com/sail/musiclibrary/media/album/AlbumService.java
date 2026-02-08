@@ -1,6 +1,5 @@
 package com.sail.musiclibrary.media.album;
 
-import com.sail.musiclibrary.artist.ArtistProfile;
 import com.sail.musiclibrary.common.BaseService;
 import com.sail.musiclibrary.common.dto.album.AlbumResponse;
 import com.sail.musiclibrary.media.album.song.SongService;
@@ -16,10 +15,11 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-public class AlbumService extends BaseService<Album, Long> {
+public class AlbumService extends BaseService<Album, Long>{
     private final AlbumRepository albumRepository;
     private final UserLookupService userLookupService;
     private final SongService songService;
+    private final AlbumOwnershipPolicy ownershipPolicy;
 
     @Transactional
     public AlbumResponse releaseAlbum(Long userId, String title, Long requesterId) {
@@ -38,7 +38,7 @@ public class AlbumService extends BaseService<Album, Long> {
 
     @Transactional
     public void deleteAlbum(Long albumId, Long requesterId) {
-        Album album = validateAlbumOwner(albumId, requesterId);
+        Album album = ownershipPolicy.validateOwner(albumId, requesterId);
 
         songService.deleteAllFromAlbum(albumId);
         albumRepository.delete(album);
@@ -46,7 +46,7 @@ public class AlbumService extends BaseService<Album, Long> {
 
     @Transactional
     public AlbumResponse renameAlbum(Long albumId, String newTitle, Long requesterId) {
-        Album album = validateAlbumOwner(albumId, requesterId);
+        Album album = ownershipPolicy.validateOwner(albumId, requesterId);
         album.rename(newTitle);
         albumRepository.save(album);
         return new AlbumResponse(
@@ -66,15 +66,6 @@ public class AlbumService extends BaseService<Album, Long> {
         } else {
             return user;
         }
-    }
-
-    public Album validateAlbumOwner(Long albumId, Long requesterId) {
-        Album album = this.findById(albumId);
-        ArtistProfile artist = userLookupService.findById(requesterId).getArtistProfile();
-        if (!Objects.equals(album.getArtist(), artist)) {
-            throw new SecurityException("Access Denied");
-        }
-        return album;
     }
 
     @Override
