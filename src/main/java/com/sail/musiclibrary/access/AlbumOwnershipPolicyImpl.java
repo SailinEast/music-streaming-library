@@ -1,5 +1,6 @@
 package com.sail.musiclibrary.access;
 
+import com.sail.musiclibrary.common.exception.AccessDeniedException;
 import com.sail.musiclibrary.media.album.Album;
 import com.sail.musiclibrary.media.album.AlbumRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ public class AlbumOwnershipPolicyImpl implements AlbumOwnershipPolicy {
     public Album validateOwner(Long albumId, Long requesterId) {
         Album album = albumRepository.findById(albumId).orElseThrow();
         if (!album.getArtist().getUser().getId().equals(requesterId)) {
-            throw new SecurityException("Access Denied");
+            throw new AccessDeniedException("Access Denied");
         }
         return album;
     }

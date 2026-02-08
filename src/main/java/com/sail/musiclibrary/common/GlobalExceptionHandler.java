@@ -1,6 +1,8 @@
 package com.sail.musiclibrary.common;
 
 import com.sail.musiclibrary.common.dto.error.ErrorResponse;
+import com.sail.musiclibrary.common.exception.AccessDeniedException;
+import com.sail.musiclibrary.common.exception.NotArtistException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,16 +22,16 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.NOT_FOUND, re.getMessage());
     }
 
-    @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
+    @ExceptionHandler({IllegalArgumentException.class, NotArtistException.class})
     public ResponseEntity<ErrorResponse> handleBadRequest(RuntimeException re) {
         log.warn("Bad Request: {}", re.getMessage());
         return buildResponse(HttpStatus.BAD_REQUEST, re.getMessage());
     }
 
-    @ExceptionHandler(SecurityException.class)
-    public ResponseEntity<ErrorResponse> handleSecurity(SecurityException se) {
-        log.warn("Unauthorized Access: {}", se.getMessage());
-        return buildResponse(HttpStatus.FORBIDDEN, se.getMessage());
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleSecurity(AccessDeniedException ade) {
+        log.warn("Unauthorized Access: {}", ade.getMessage());
+        return buildResponse(HttpStatus.FORBIDDEN, ade.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
