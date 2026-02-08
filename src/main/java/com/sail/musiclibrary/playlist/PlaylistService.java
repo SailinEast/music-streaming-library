@@ -4,7 +4,7 @@ import com.sail.musiclibrary.common.BaseService;
 import com.sail.musiclibrary.media.album.song.Song;
 import com.sail.musiclibrary.media.album.song.SongService;
 import com.sail.musiclibrary.user.User;
-import com.sail.musiclibrary.user.UserService;
+import com.sail.musiclibrary.user.UserLookupService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,12 +15,12 @@ import org.springframework.stereotype.Service;
 public class PlaylistService extends BaseService<Playlist, Long> {
     private final PlaylistRepository playlistRepository;
     private final SongService songService;
-    private final UserService userService;
+    private final UserLookupService userLookupService;
 
     // Playlist manipulations
     @Transactional
     public Playlist createPlaylist(String name, Long ownerId) {
-        User user = userService.findById(ownerId);
+        User user = userLookupService.findById(ownerId);
         Playlist playlist = new Playlist(name, user);
         return playlistRepository.save(playlist);
     }

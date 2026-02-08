@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserService extends BaseService<User, Long> {
+public class UserService extends BaseService<User, Long> implements UserLookupService{
     private final UserRepository userRepository;
     private final UserAccessValidator accessValidator;
 

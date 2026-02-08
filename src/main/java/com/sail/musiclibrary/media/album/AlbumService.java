@@ -5,7 +5,7 @@ import com.sail.musiclibrary.common.BaseService;
 import com.sail.musiclibrary.common.dto.album.AlbumResponse;
 import com.sail.musiclibrary.media.album.song.SongService;
 import com.sail.musiclibrary.user.User;
-import com.sail.musiclibrary.user.UserService;
+import com.sail.musiclibrary.user.UserLookupService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,7 +18,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class AlbumService extends BaseService<Album, Long> {
     private final AlbumRepository albumRepository;
-    private final UserService userService;
+    private final UserLookupService userLookupService;
     private final SongService songService;
 
     @Transactional
@@ -58,7 +58,7 @@ public class AlbumService extends BaseService<Album, Long> {
     }
 
     public User validateUser(Long userId, Long requesterId) {
-        User user = userService.findById(userId);
+        User user = userLookupService.findById(userId);
         if (!user.isArtist()) {
             throw new IllegalStateException("User '" + user.getHandle() + "' is not an artist!");
         } else if (!Objects.equals(userId, requesterId)) {
@@ -70,7 +70,7 @@ public class AlbumService extends BaseService<Album, Long> {
 
     public Album validateAlbumOwner(Long albumId, Long requesterId) {
         Album album = this.findById(albumId);
-        ArtistProfile artist = userService.findById(requesterId).getArtistProfile();
+        ArtistProfile artist = userLookupService.findById(requesterId).getArtistProfile();
         if (!Objects.equals(album.getArtist(), artist)) {
             throw new SecurityException("Access Denied");
         }
