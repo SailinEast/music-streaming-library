@@ -1,23 +1,19 @@
 package com.sail.musiclibrary.access;
 
-import com.sail.musiclibrary.artist.ArtistProfile;
 import com.sail.musiclibrary.media.album.Album;
-import com.sail.musiclibrary.media.album.AlbumService;
-import com.sail.musiclibrary.user.UserLookupService;
+import com.sail.musiclibrary.media.album.AlbumRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class AlbumOwnershipPolicyImpl implements AlbumOwnershipPolicy {
-    private final AlbumService albumService;
-    private final UserLookupService userLookupService;
+    private final AlbumRepository albumRepository;
 
     @Override
     public Album validateOwner(Long albumId, Long requesterId) {
-        Album album = albumService.findById(albumId);
-        ArtistProfile artist = userLookupService.findById(requesterId).getArtistProfile();
-        if (!album.getArtist().equals(artist)) {
+        Album album = albumRepository.findById(albumId).orElseThrow();
+        if (!album.getArtist().getUser().getId().equals(requesterId)) {
             throw new SecurityException("Access Denied");
         }
         return album;
